@@ -1,12 +1,12 @@
 name: "Run checks on builds"
 on:
-  # pull_request:
-  #   types:
-  #     - opened
-  #     - reopened
-  #     - synchronize
-  #   paths:
-  #     - '**.nix'
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+    paths:
+      - '**.nix'
 jobs:
   tests:
     strategy:
