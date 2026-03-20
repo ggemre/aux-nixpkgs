@@ -22,7 +22,7 @@
   enableXWayland ? true,
 }:
 stdenv.mkDerivation (finalAttrs: {
-  pname = "mango";
+  pname = "mango-TEST";
   version = "0.12.5";
 
   src = fetchFromGitHub {
