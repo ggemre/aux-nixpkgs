@@ -3,8 +3,6 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 
-env:
-  nix_path: 'https://github.com/NixOS/nixpkgs/archive/refs/heads/nixpkgs-unstable.tar.gz'
 jobs:
   detect:
     runs-on: ubuntu-latest
@@ -36,21 +34,14 @@ jobs:
             experimental-features = nix-command flakes
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
-      - name: Show nixpkgs version
-        run: nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
-
       - name: Check formatting
         run: nix fmt -- . --check
 
-      - name: Check evaluation
-        run: |
-          nix-env -f . -qa \* --meta --xml \
-            --allowed-uris https://static.rust-lang.org \
-            --option restrict-eval true \
-            --option allow-import-from-derivation true \
-            --drv-path --show-trace \
-            -I nixpkgs=$(nix-instantiate --find-file nixpkgs) \
-            -I $PWD
-
       - name: Build nix packages
-        run: nix shell -f '<nixpkgs>' nix-build-uncached -c nix-build-uncached ci.nix -A cacheOutputs
+        run: |
+          # We purposefully override the input to make sure we're always
+          # testing on the latest nixos-unstable
+          nix flake show --json \
+          | jq -r '.packages."x86_64-linux" | keys[]' \
+          | xargs -I {} nix build .#packages.x86_64-linux."{}" \
+          --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable
