@@ -7,7 +7,7 @@ jobs:
   detect:
     runs-on: ubuntu-latest
     outputs:
-      nix_changed: ${{ steps.check.outputs.changed }}
+      nix_changed: ${{ steps.filter.outputs.changed }}
     steps:
       - uses: actions/checkout@v4
 
