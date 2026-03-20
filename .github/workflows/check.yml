@@ -3,6 +3,8 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 
+env:
+  nix_path: 'https://github.com/NixOS/nixpkgs/archive/refs/heads/nixpkgs-unstable.tar.gz'
 jobs:
   detect:
     runs-on: ubuntu-latest
@@ -21,10 +23,6 @@ jobs:
   tests:
     needs: detect
     if: needs.detect.outputs.nix_changed == 'true'
-    strategy:
-      matrix:
-        nixPath:
-          - nixpkgs=https://github.com/NixOS/nixpkgs/archive/refs/heads/nixpkgs-unstable.tar.gz
     runs-on: ubuntu-latest
 
     steps:
@@ -33,7 +31,7 @@ jobs:
       - name: Install nix
         uses: cachix/install-nix-action@v31
         with:
-          nix_path: "${{ matrix.nixPath }}"
+          nix_path: "${{ env.nix_path }}"
           extra_nix_config: |
             experimental-features = nix-command flakes
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
