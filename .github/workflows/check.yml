@@ -11,14 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - id: check
-        run: |
-          if git diff --name-only origin/${{ github.base_ref }} | grep -q '\.nix$'; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "changed=false" >> $GITHUB_OUTPUT
-            echo "No nix files changed, skipping additional tests."
-          fi
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            changed:
+              - '**/*.nix'
 
   tests:
     needs: detect
