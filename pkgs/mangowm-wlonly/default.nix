@@ -26,7 +26,7 @@
 in
   stdenv.mkDerivation (finalAttrs: {
     pname = "mango";
-    version = "wl-only";
+    version = "wl-only-git";
 
     src = fetchFromGitHub {
       owner = "mangowm";
