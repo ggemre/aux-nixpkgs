@@ -38,18 +38,12 @@ jobs:
         run: nix fmt -- . --check
 
       - name: Get changed packages
-        id: pkgs
-        run: |
-          CHANGED=$(git diff --name-only \
-            | grep '^pkgs/' \
-            | cut -d/ -f2 \
-            | sort -u)
-
-          echo "changed_pkgs=$CHANGED" >> $GITHUB_OUTPUT
+        id: changed_pkgs
+        uses: jitterbit/get-changed-files@v1
 
       - name: Build packages
         run: |
-          for pkg in ${{ steps.pkgs.outputs.changed_pkgs }}; do
+          for pkg in ${{ steps.changed_pkgs.outputs.all }}; do
             echo "Building $pkg"
             # We purposefully override nixpkgs to make sure we're always
             # testing on the latest nixos-unstable
