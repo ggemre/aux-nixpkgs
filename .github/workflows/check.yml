@@ -37,13 +37,23 @@ jobs:
       - name: Check formatting
         run: nix fmt -- . --check
 
-      - name: Get changed packages
+      - name: Get changed files
         id: changed_pkgs
-        uses: jitterbit/get-changed-files@v1
+        uses: tj-actions/changed-files@47
+        with:
+          files: |
+            pkgs/**.nix
 
       - name: Build packages
         run: |
-          for pkg in ${{ steps.changed_pkgs.outputs.all }}; do
+          CHANGED_PKGS=$(
+            echo steps.changed_pkgs.outputs.all_changed_files
+            | grep '^pkgs/' \
+            | cut -d/ -f2 \
+            | sort -u \
+            | tr '\n' ' '
+          )
+          for pkg in $CHANGED_PKGS; do
             echo "Building $pkg"
             # We purposefully override nixpkgs to make sure we're always
             # testing on the latest nixos-unstable
