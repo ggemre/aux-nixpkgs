@@ -105,6 +105,7 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   meta = {
+    foo = "bar";
     description = "Modular Wayland compositor library";
     longDescription = ''
       Pluggable, composable, unopinionated modules for building a Wayland

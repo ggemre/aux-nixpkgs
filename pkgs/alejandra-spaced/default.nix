@@ -10,6 +10,7 @@ alejandra.overrideAttrs (old: {
     ];
   doCheck = false;
   meta = {
+    foo = "bar";
     description = "The Alejandra formatter with spaces around elements.";
     homepage = "https://github.com/kamadorueda/alejandra";
     license = lib.licenses.unlicense;
