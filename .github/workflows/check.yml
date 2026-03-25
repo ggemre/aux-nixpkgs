@@ -37,22 +37,11 @@ jobs:
       - name: Check formatting
         run: nix fmt -- . --check
 
-      - name: Get changed packages
-        id: pkgs
+      - name: Build nix packages
         run: |
-          CHANGED=$(git diff --name-only origin/${{ github.base_ref }} \
-            | grep '^pkgs/' \
-            | cut -d/ -f2 \
-            | sort -u)
-
-          echo "changed_pkgs=$CHANGED" >> $GITHUB_OUTPUT
-
-      - name: Build packages
-        run: |
-          for pkg in ${{ steps.pkgs.outputs.changed_pkgs }}; do
-            echo "Building $pkg"
-            # We purposefully override nixpkgs to make sure we're always
-            # testing on the latest nixos-unstable
-            nix build .#packages.x86_64-linux."$pkg" \
-              --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable
-          done
+          # We purposefully override the input to make sure we're always
+          # testing on the latest nixos-unstable
+          nix flake show --json \
+          | jq -r '.packages."x86_64-linux" | keys[]' \
+          | xargs -I {} nix build .#packages.x86_64-linux."{}" \
+          --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable
