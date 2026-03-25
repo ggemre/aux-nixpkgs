@@ -39,7 +39,7 @@ jobs:
 
       - name: Get changed files
         id: changed_pkgs
-        uses: tj-actions/changed-files@47
+        uses: tj-actions/changed-files@v47
         with:
           files: |
             pkgs/**.nix
