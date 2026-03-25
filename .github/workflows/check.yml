@@ -40,7 +40,7 @@ jobs:
       - name: Get changed packages
         id: pkgs
         run: |
-          CHANGED=$(git diff --name-only origin/${{ github.base_ref }} \
+          CHANGED=$(git diff --name-only --diff-filter=d ${{ github.event.base_ref }}~1 ${{ github.event.head_ref }}) \
             | grep '^pkgs/' \
             | cut -d/ -f2 \
             | sort -u)
