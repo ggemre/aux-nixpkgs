@@ -40,7 +40,7 @@ jobs:
       - name: Get changed packages
         id: pkgs
         run: |
-          CHANGED=$(git diff --name-only) \
+          CHANGED=$(git diff --name-only \
             | grep '^pkgs/' \
             | cut -d/ -f2 \
             | sort -u)
