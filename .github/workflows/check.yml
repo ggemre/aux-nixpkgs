@@ -42,21 +42,26 @@ jobs:
         uses: tj-actions/changed-files@v47
         with:
           files: |
-            pkgs/**.nix
+            pkgs/**/*.nix
 
       - name: Build packages
         run: |
           CHANGED_PKGS=$(
-            echo steps.changed_pkgs.outputs.all_changed_files
-            | grep '^pkgs/' \
-            | cut -d/ -f2 \
+            printf "%s\n" "${{ steps.changed_pkgs.outputs.all_changed_files }}" \
+            | awk -F/ '/^pkgs\// {print $2}' \
             | sort -u \
-            | tr '\n' ' '
+            | paste -sd ' ' -
           )
+
+          echo "Changed packages: $CHANGED_PKGS"
+
+          if [ -z "$CHANGED_PKGS" ]; then
+            echo "No package changes, skipping"
+            exit 0
+          fi
+
           for pkg in $CHANGED_PKGS; do
             echo "Building $pkg"
-            # We purposefully override nixpkgs to make sure we're always
-            # testing on the latest nixos-unstable
             nix build .#packages.x86_64-linux."$pkg" \
               --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable
           done
