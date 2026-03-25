@@ -29,7 +29,7 @@ stdenv.mkDerivation (finalAttrs: {
     owner = "mangowm";
     repo = "mango";
     rev = finalAttrs.version;
-    hash = "sha256-dkqs7Bk3099dLGY6x9/Mp6lpieFJ8tKAe6wr59CknMc=";
+    hash = "sha256-dkqs7Bk3099dLGY6aa/Mp6lpieFJ8tKAe6wr59CknMc=";
   };
 
   mesonFlags = [
