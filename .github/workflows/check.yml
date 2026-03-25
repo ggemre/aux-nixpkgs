@@ -46,12 +46,10 @@ jobs:
 
       - name: Build packages
         run: |
-          echo "${{ steps.changed_pkgs.outputs.all_changed_files }}"
           CHANGED_PKGS=$(
-            printf "%s\n" "${{ steps.changed_pkgs.outputs.all_changed_files }}" \
-            | awk -F/ '/^pkgs\// {print $2}' \
-            | sort -u \
-            | paste -sd ' ' -
+            printf "%s\n" "pkgs/alejandra-spaced/default.nix pkgs/mangowm-wlonly/wlroots.nix" \
+            | tr ' ' '\n' \
+            | awk -F/ '/^pkgs\// {print $2}'
           )
 
           echo "Changed packages: $CHANGED_PKGS"
@@ -61,8 +59,8 @@ jobs:
             exit 0
           fi
 
-          # for pkg in $CHANGED_PKGS; do
-          #   echo "Building $pkg"
-          #   nix build .#packages.x86_64-linux."$pkg" \
-          #     --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable
-          # done
+          for pkg in $CHANGED_PKGS; do
+            echo "Building $pkg"
+            nix build .#packages.x86_64-linux."$pkg" \
+              --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable
+          done
