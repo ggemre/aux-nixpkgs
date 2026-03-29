@@ -31,8 +31,8 @@ in
     src = fetchFromGitHub {
       owner = "mangowm";
       repo = "mango";
-      rev = "8e8710ea7618cc4a5ff22be463448c253a6265c6";
-      hash = "sha256-QpVvSQM3j5YAUjMhB3vZtyxfa2wuDy0geshHpYS8iuA=";
+      rev = "92aaee41bbd611b40c9bc6fdcda3e380877292b8";
+      hash = "sha256-b44beVifnvSUu0Q3Nfa0+z6OcaTYt7rems4akuYp5F0=";
     };
 
     mesonFlags = [
