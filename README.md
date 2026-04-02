@@ -11,6 +11,5 @@ Set of nix packages for my personal use to serve an auxiliary purpose to [nixpkg
 | Name | Description | Notes |
 | ---- | ----------- | ----- |
 | alejandra-spaced | The Alejandra formatter with spaces around elements. | |
-| mangowm | A streamlined but feature-rich Wayland compositor. | If you don't want to use the nightly flake and don't like how nixpkgs calls it `mangowc`. |
-| mangowm-wlonly | MangoWM without scenefx. | git version, handles `wlroots_0_20` dependency |
+| mangowm-wlonly | MangoWM without scenefx. | (git version) |
 
