@@ -1,6 +1,7 @@
 # Nix Package Set
 
-<!-- ![Build & Distribute](https://github.com/ggemre/aux-nixpkgs/workflows/Build%20and%20distribute/badge.svg) -->
+![Build and populate cache](https://github.com/ggemre/aux-nixpkgs/workflows/Build%20and%20deploy/badge.svg)
+[![Cachix Cache](https://img.shields.io/badge/cachix-ggemre.svg)](https://ggemre.cachix.org)
 
 Set of nix packages for my personal use to serve an auxiliary purpose to [nixpkgs](https://github.com/nixos/nixpkgs).
 
