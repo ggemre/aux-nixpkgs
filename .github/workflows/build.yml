@@ -1,0 +1,51 @@
+name: "Build and deploy"
+on:
+  push:
+    branches: [main]
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      pkgs_changed: ${{ steps.filter.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - id: filter
+        uses: dorny/paths-filter@v4
+        with:
+          filters: |
+            changed:
+              - 'pkgs/*.nix'
+
+  tests:
+    needs: detect
+    if: needs.detect.outputs.pkgs_changed == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install nix
+        uses: cachix/install-nix-action@v31
+        with:
+          nix_path: "${{ env.nix_path }}"
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup cachix
+        uses: cachix/cachix-action@v17
+        with:
+          name: ggemre
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+
+
+      - name: Build nix packages
+        run: |
+          # We purposefully override the input to make sure we're always
+          # testing on the latest nixos-unstable
+          nix flake show --json \
+          | jq -r '.packages."x86_64-linux" | keys[]' \
+          | xargs -I {} nix build .#packages.x86_64-linux."{}" \
+          --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable
