@@ -16,7 +16,7 @@ jobs:
         with:
           filters: |
             changed:
-              - 'pkgs/*.nix'
+              - 'pkgs/**/*.nix'
 
   tests:
     needs: detect
