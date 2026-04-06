@@ -2,8 +2,8 @@ name: "Release images"
 on:
   push:
     branches: [main]
-  paths:
-    - 'images/**/*.nix'
+    paths:
+      - 'images/**/*.nix'
 
 jobs:
   build:
