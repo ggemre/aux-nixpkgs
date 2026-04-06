@@ -18,7 +18,7 @@ jobs:
           list-files: shell
           filters: |
             pkgs:
-              - added|modified: 'pkgs/**/*.nix'
+              - added|modified: 'pkgs/*/*.nix'
 
       - name: Install nix
         uses: cachix/install-nix-action@v31
