@@ -24,6 +24,10 @@
       system: nixpkgs.lib.filterAttrs (_: v: nixpkgs.lib.isDerivation v) self.legacyPackages.${system}
     );
 
+    checks = forAllSystems (
+      system: nixpkgs.lib.filterAttrs (_: v: !(v.meta.broken or false)) self.legacyPackages.${system}
+    );
+
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
   };
 }

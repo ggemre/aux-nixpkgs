@@ -29,23 +29,12 @@ jobs:
       - name: Install nix
         uses: cachix/install-nix-action@v31
         with:
-          nix_path: "${{ env.nix_path }}"
           extra_nix_config: |
             experimental-features = nix-command flakes
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup cachix
-        uses: cachix/cachix-action@v17
-        with:
-          name: ggemre
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-
 
       - name: Build nix packages
+        env:
+          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
         run: |
-          # We purposefully override the input to make sure we're always
-          # testing on the latest nixos-unstable
-          nix flake show --json \
-          | jq -r '.packages."x86_64-linux" | keys[]' \
-          | xargs -I {} nix build .#packages.x86_64-linux."{}" \
-          --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable
+          nix run nixpkgs#nix-fast-build -- \
+              --no-nom --skip-cached -cachix-cache ggemre
