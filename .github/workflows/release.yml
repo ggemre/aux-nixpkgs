@@ -49,7 +49,9 @@ jobs:
         with:
           tag_name: ${{ needs.build.outputs.release_tag }}
           name: Images Build ${{ needs.build.outputs.release_tag }}
-          files: dist/*
+          files: |
+            dist/*.iso
+            dist/*.img
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
