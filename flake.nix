@@ -25,5 +25,19 @@
     );
 
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+
+    checks = forAllSystems (
+      system: let
+        pkgs = import nixpkgs {inherit system;};
+        allChecks = import ./default.nix {
+          inherit pkgs;
+        };
+      in
+        pkgs.lib.filterAttrs (
+          _name: drv:
+            !(drv.meta.broken or false)
+        )
+        allChecks
+    );
   };
 }
