@@ -23,7 +23,7 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "mango";
-  version = builtins.substring 0 7 finalAttrs.src.rev;
+  version = builtins.substring 0 7 finalAtrs.src.rev;
 
   src = fetchFromGitHub {
     owner = "mangowm";
