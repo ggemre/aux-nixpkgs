@@ -2,27 +2,11 @@ name: "Build and deploy"
 on:
   push:
     branches: [main]
+  pull_request: # TODO: delete me
 
 jobs:
-  detect:
-    runs-on: ubuntu-latest
-    outputs:
-      pkgs_changed: ${{ steps.filter.outputs.changed }}
-    steps:
-      - uses: actions/checkout@v6
-
-      - id: filter
-        uses: dorny/paths-filter@v4
-        with:
-          filters: |
-            changed:
-              - 'pkgs/**/*.nix'
-
   build:
-    needs: detect
-    if: needs.detect.outputs.pkgs_changed == 'true'
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v6
 
@@ -32,9 +16,28 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
 
-      - name: Build nix packages
-        env:
-          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Get changes to pkgs
+        id: filter
+        uses: dorny/paths-filter@v4
+        with:
+          list-files: shell
+          filters: |
+            pkgs:
+              - added|modified: 'pkgs/**/*.nix'
+
+      - name: Build packages
         run: |
-          nix run nixpkgs#nix-fast-build -- \
-              --no-nom --skip-cached --cachix-cache ggemre
+          files="${{ steps.filter.outputs.pkgs_files }}"
+
+          if [ -z "$files" ]; then
+            echo "No package changes"
+            exit 0
+          fi
+
+          attrs=$(for f in $files; do
+            basename "$(dirname "$f")"
+          done | sort -u | sed 's/^/.#/' | paste -sd ' ')
+
+          echo "Building attrs: $attrs"
+
+          nix build $attrs
