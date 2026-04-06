@@ -9,12 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Install nix
-        uses: cachix/install-nix-action@v31
-        with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-
       - name: Get changes to pkgs
         id: filter
         uses: dorny/paths-filter@v4
@@ -24,8 +18,16 @@ jobs:
             pkgs:
               - added|modified: 'pkgs/**/*.nix'
 
+      - name: Install nix
+        uses: cachix/install-nix-action@v31
+        if: ${{ steps.filter.outputs.pkgs == 'true' }}
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
       - name: Setup cachix
         uses: cachix/cachix-action@v17
+        if: ${{ steps.filter.outputs.pkgs == 'true' }}
         with:
           name: ggemre
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
@@ -33,6 +35,7 @@ jobs:
             (-source$ | nixpkgs\.tar\.gz$)
 
       - name: Build packages
+        if: ${{ steps.filter.outputs.pkgs == 'true' }}
         run: |
           files="${{ steps.filter.outputs.pkgs_files }}"
 
