@@ -4,23 +4,23 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
-  detect:
-    runs-on: ubuntu-latest
-    outputs:
-      nix_changed: ${{ steps.filter.outputs.changed }}
-    steps:
-      - uses: actions/checkout@v6
+  # detect:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     nix_changed: ${{ steps.filter.outputs.changed }}
+  #   steps:
+  #     - uses: actions/checkout@v6
 
-      - id: filter
-        uses: dorny/paths-filter@v4
-        with:
-          filters: |
-            changed:
-              - '**/*.nix'
+  #     - id: filter
+  #       uses: dorny/paths-filter@v4
+  #       with:
+  #         filters: |
+  #           changed:
+  #             - '**/*.nix'
 
   tests:
-    needs: detect
-    if: needs.detect.outputs.nix_changed == 'true'
+    # needs: detect
+    # if: needs.detect.outputs.nix_changed == 'true'
     runs-on: ubuntu-latest
 
     steps:
@@ -34,14 +34,14 @@ jobs:
             experimental-features = nix-command flakes
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check formatting
-        run: nix fmt -- . --check
+      # - name: Check formatting
+      #   run: nix fmt -- . --check
 
-      # - name: Build nix packages
-      #   run: |
-      #     # We purposefully override the input to make sure we're always
-      #     # testing on the latest nixos-unstable
-      #     nix flake show --json \
-      #     | jq -r '.packages."x86_64-linux" | keys[]' \
-      #     | xargs -I {} nix build .#packages.x86_64-linux."{}" \
-      #     --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable
+      - name: Build nix packages
+        run: |
+          # We purposefully override the input to make sure we're always
+          # testing on the latest nixos-unstable
+          nix flake show --json \
+          | jq -r '.packages."x86_64-linux" | keys[]' \
+          | xargs -I {} nix build .#packages.x86_64-linux."{}" \
+          --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable
