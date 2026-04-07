@@ -74,7 +74,15 @@ jobs:
 
             Created on ${{ steps.date.outputs.date_time }}.
 
+            For aarch64-linux SD cards, just download from [Hydra](https://hydra.nixos.org/job/nixos/unstable/nixos.sd_image.aarch64-linux),
+            I don't intend to cross-compile on GitHub runners.
+
+            The available images serve my purposes as follows:
+
             - **cd-minimal**: basic x86_64-linux iso for installing NixOS
+
+            Use `zstd -d <file_name.zst>` to decompress the artifact.
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
