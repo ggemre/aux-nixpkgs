@@ -1,6 +1,5 @@
 {
   modulesPath,
-  pkgs,
   ...
 }: {
   imports = [
@@ -10,8 +9,4 @@
 
   networking.networkmanager.enable = true;
   nixpkgs.hostPlatform = "x86_64-linux";
-
-  environment.systemPackages = [
-    pkgs.helix
-  ];
 }
