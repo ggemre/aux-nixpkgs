@@ -39,6 +39,13 @@ jobs:
     needs: build
 
     steps: 
+      - uses: actions/checkout@v6
+
+      - name: Configure git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -47,18 +54,27 @@ jobs:
 
       - name: Get date
         id: date
-        run: echo "date=$(date +'%Y-%m-%d')" >> "${GITHUB_OUTPUT}"
+        run: |
+          echo "date=$(date +'%Y-%m-%d')" >> "${GITHUB_OUTPUT}"
+          echo "date_time=$(date +'%Y-%m-%d:%H:%M')" >> "${GITHUB_OUTPUT}"
+
+      - name: Create tag
+        run: |
+          git tag "v${{ steps.date.outputs.date_time }}"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git "v{{ steps.date.outputs.date_time }}"
 
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ needs.build.outputs.release_tag }}
-          name: Images ${{ steps.get-date.outputs.date }}
+          tag_name: "v${{ steps.date.outputs.date_time }}"
+          name: Images ${{ steps.date.outputs.date }}
           files: |
             dist/*.iso
             dist/*.img
           body: |
             # Image release
+
+            Created on ${{ steps.date.outputs.date_time }}.
 
             - **cd-minimal**: basic x86_64-linux iso for installing NixOS
 
