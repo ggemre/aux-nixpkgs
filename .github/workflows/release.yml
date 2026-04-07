@@ -61,7 +61,7 @@ jobs:
       - name: Create tag
         run: |
           git tag "v${{ steps.date.outputs.date_time }}"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git "v{{ steps.date.outputs.date_time }}"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git "v${{ steps.date.outputs.date_time }}"
 
       - name: Create release
         uses: softprops/action-gh-release@v2
