@@ -45,14 +45,24 @@ jobs:
           name: images
           path: dist/
 
+      - name: Get date
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d')" >> "${GITHUB_OUTPUT}"
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.build.outputs.release_tag }}
-          name: Images Build ${{ needs.build.outputs.release_tag }}
+          name: Images ${{ steps.get-date.outputs.date }}
           files: |
             dist/*.iso
             dist/*.img
+          body: |
+            # Image release
+
+            - **cd-minimal**: basic x86_64-linux iso for installing NixOS
+
+            `${{ needs.build.outputs.release_tag }}`
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
