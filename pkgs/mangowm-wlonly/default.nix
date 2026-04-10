@@ -28,8 +28,8 @@ stdenv.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "mangowm";
     repo = "mango";
-    rev = "d199a6cb6506f01e614eacd160f2cb0f713d9699";
-    hash = "sha256-BoQ8dLdJ3MZ4tnjKM12rx7burDgLTUaso5L+7fv9XWQ=";
+    rev = "a830e39042260223380c733c2ba731ad29d3601f";
+    hash = "sha256-KvYUisaPIq25rbB05Wyz0n1zQjTytLwGEHl51h5gQuo=";
   };
 
   mesonFlags = [
@@ -70,7 +70,6 @@ stdenv.mkDerivation (finalAttrs: {
     description = "MangoWM without scenefx.";
     homepage = "https://github.com/mangowm/mango";
     license = lib.licenses.gpl3Plus;
-    maintainers = [];
     platforms = lib.platforms.linux;
   };
 })
