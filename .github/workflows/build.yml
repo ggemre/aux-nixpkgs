@@ -15,7 +15,6 @@ jobs:
         id: filter
         uses: dorny/paths-filter@v4
         with:
-          list-files: shell
           filters: |
             pkgs:
               - added|modified: 'pkgs/*/*.nix'
@@ -29,26 +28,8 @@ jobs:
 
       - name: Build packages
         if: ${{ steps.filter.outputs.pkgs == 'true' }}
-        run: |
-          files="${{ steps.filter.outputs.pkgs_files }}"
-
-          if [ -z "$files" ]; then
-            echo "No package changes"
-            exit 0
-          fi
-
-          attrs=$(for f in $files; do
-            basename "$(dirname "$f")"
-          done | sort -u | sed 's/^/.#/' | paste -sd ' ')
-
-          echo "Building attrs: $attrs"
-
-          nix build $attrs
-
-      - name: Push to cache
-        run: |
-          paths=$(nix path-info ./result*)
-          echo "Pushing $paths"
-          nix run nixpkgs#cachix -- push ggemre $paths
         env:
           CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        run: |
+          nix run nixpkgs#nix-fast-build -- \
+              --no-nom --skip-cached --cachix-cache ggemre
