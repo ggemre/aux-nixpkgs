@@ -70,7 +70,6 @@ stdenv.mkDerivation (finalAttrs: {
     description = "MangoWM without scenefx.";
     homepage = "https://github.com/mangowm/mango";
     license = lib.licenses.gpl3Plus;
-    maintainers = [];
     platforms = lib.platforms.linux;
   };
 })
