@@ -43,7 +43,8 @@ jobs:
 
           echo "Building attrs: $attrs"
 
-          nix build $attrs
+          nix build $attrs \
+            --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable
 
       - name: Push to cache
         run: |
