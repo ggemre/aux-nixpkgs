@@ -4,7 +4,11 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    assignees:
+      - "ggemre"
   - package-ecosystem: "nix"
     directory: "/"
     schedule:
-      interval: "weekly"
+      cron: "34 8 */5 * *"
+    assignees:
+      - "ggemre"
