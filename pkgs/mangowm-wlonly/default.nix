@@ -28,8 +28,8 @@ stdenv.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "mangowm";
     repo = "mango";
-    rev = "36978537ffa97310165c0565d2022191d267d29c";
-    hash = "sha256-Yf3Gp7mLz2qCkCFqd27rgEJQY+rAtTrAp6ofw/szUvE=";
+    rev = "da4ebdadec3889e94ddd3fe6a9234601cc36dc45";
+    hash = "sha256-KewJF/SQtwEOdR2J0EoC0BsLp366aQ7OFAY8GoXdRBY=";
   };
 
   mesonFlags = [
