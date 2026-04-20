@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: images
-          path: ${{ matrix.image }}/iso/*.zst
+          path: ${{ matrix.image }}/iso/*.iso
 
   release:
     runs-on: ubuntu-latest
@@ -68,7 +68,7 @@ jobs:
         with:
           tag_name: "v${{ steps.date.outputs.date_time }}"
           name: Images ${{ steps.date.outputs.date }}
-          files: dist/*.zst
+          files: dist/*.iso
           body: |
             # Image release
 
@@ -81,7 +81,11 @@ jobs:
 
             - **cd-minimal**: basic x86_64-linux iso for installing NixOS
 
-            Use `zstd -d <file_name.zst>` to decompress the artifact.
+            You can use `dd` to flash the image, e.g.:
+
+            ```sh
+              sudo dd if=<path/to/iso> of=<path/to/device> status=progress bs=4M conv=fsync
+            ```
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
