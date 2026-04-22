@@ -1,13 +1,14 @@
 name: "Benchmark images"
 on:
   pull_request:
-    types: [ opened ]
+    types: [ opened, synchronize ]
 
+jobs:
   build-arm:
     runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
-        image: [sd-image]
+        image: [ sd-image ]
 
     steps:
       - uses: actions/checkout@v6

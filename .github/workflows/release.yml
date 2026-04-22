@@ -1,7 +1,7 @@
 name: "Release images"
 on:
   push:
-    branches: [main]
+    branches: [ main ]
     paths:
       - 'images/**/*.nix'
 
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image: [cd-installer]
+        image: [ cd-installer ]
 
     steps:
       - uses: actions/checkout@v6
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
-        image: [sd-image]
+        image: [ sd-image ]
 
     steps:
       - uses: actions/checkout@v6
@@ -63,7 +63,7 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
-    needs: [build-x86, build-arm]
+    needs: [ build-x86, build-arm ]
 
     steps: 
       - uses: actions/checkout@v6
