@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: images
-          path: ${{ matrix.image }}/iso/*.zst
+          path: ${{ matrix.image }}/*.zst
 
 
   release:
