@@ -5,14 +5,14 @@
 
 Set of nix packages for my personal use to serve an auxiliary purpose to [nixpkgs](https://github.com/nixos/nixpkgs).
 
-## Packages:
+## Packages
 
 | Name | Description | Notes |
 | ---- | ----------- | ----- |
 | alejandra-spaced | The Alejandra formatter with spaces around elements. | |
 | mangowm-wlonly | MangoWM without scenefx. | (git version) |
 
-## Usage:
+## Usage
 
 Add the flake like so:
 
@@ -40,12 +40,12 @@ Substituter Information:
 
 The cache only contains binaries for `x86_64-linux`. To save space and costs, I don't plan on supporting multiple systems.
 
-## Images:
+## Images
 
 This repository also builds a couple of NixOS images. You can check [releases](https://github.com/ggemre/aux-nixpkgs/releases),
 but bear in mind these are tailored to my systems and may not work correctly on your hardware. Use at your own risk.
 
-## Notes:
+## Notes
 
 * Open an [issue](https://github.com/ggemre/aux-nixpkgs/issues) if you need to contact me.
   - Licensing concerns
