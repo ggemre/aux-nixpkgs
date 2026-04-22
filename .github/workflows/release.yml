@@ -1,10 +1,9 @@
 name: "Release images"
 on:
   push:
-    # branches: [main]
-    # paths:
-    #   - 'images/**/*.nix'
-    branches: [never]
+    branches: [main]
+    paths:
+      - 'images/**/*.nix'
 
 jobs:
   build-x86:
@@ -52,7 +51,7 @@ jobs:
       - name: Build image
         run: |
           nix build \
-            .#images.${{ matrix.image }}.config.system.build.isoImage \
+            .#images.${{ matrix.image }}.config.system.build.sdImage \
             --out-link ${{ matrix.image }}
 
       - name: Upload artifact
