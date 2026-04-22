@@ -1,0 +1,27 @@
+{lib, ...}: {
+  users.users.root = {
+    initialPassword = "hunter2";
+    initialHashedPassword = lib.mkForce null;
+  };
+
+  services.getty = {
+    autologinUser = lib.mkForce "root";
+    helpLine = lib.mkForce ''
+      -------------------------------------
+      ,_  _ _      ___  ___
+      | \| (_)_ __/ _ \/ __|
+      | .` | \ \ / (_) \__ \
+      |_|\_|_/_\_\\___/|___/
+
+      The account "root" has the password "hunter2".
+
+      To reinstall an existing host, run `reinstall <HOST>` where
+      <HOST> is the hostname to install.
+
+      -------------------------------------
+    '';
+  };
+
+  documentation.enable = false;
+  isoImage.compressImage = true;
+}

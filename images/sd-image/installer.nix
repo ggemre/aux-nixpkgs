@@ -23,4 +23,5 @@
   };
 
   documentation.enable = false;
+  sdImage.compressImage = true;
 }

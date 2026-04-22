@@ -1,5 +1,6 @@
 {nixpkgs ? import <nixpkgs>}: let
   mkImage = module: nixpkgs.lib.nixosSystem {modules = [module];};
 in {
-  cd-minimal = mkImage ./cd-minimal;
+  cd-installer = mkImage ./cd-installer;
+  sd-image = mkImage ./sd-image;
 }

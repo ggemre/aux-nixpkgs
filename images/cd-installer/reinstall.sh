@@ -1,5 +1,7 @@
-# Basic script to reinstall a basic system
-# Run with `reinstall <HOSTNAME>` to reinstall HOSTNAME
+# Reinstall script for supported hosts only.
+# Usage: reinstall <HOSTNAME>
+# This script is tailored to systems in github:ggemre/nixos-config and
+# may not work correctly on other hardware. Use at your own risk.
 
 deps_not_satisfied=false
 
@@ -19,7 +21,7 @@ HOST=$1
 
 if [ -z "$HOST" ]; then
 	echo -e "\033[0;31mERROR:\033[0m argument HOST not provided"
-	echo "Run this command with ./install <HOST>"
+	echo "Run this command with reinstall <HOST>"
 	exit 1
 fi
 
