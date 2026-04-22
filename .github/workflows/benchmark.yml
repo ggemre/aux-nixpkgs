@@ -1,7 +1,7 @@
-name: "Benchmark images"
+# Test the SD image build on demand
+name: "Benchmark image"
 on:
-  pull_request:
-    types: [ opened, synchronize ]
+  workflow_dispatch:
 
 jobs:
   build-arm:
@@ -9,6 +9,10 @@ jobs:
     strategy:
       matrix:
         image: [ sd-image ]
+
+    concurrency:
+      group: benchmark-${{ github.ref }}
+      cancel-in-progress: true
 
     steps:
       - uses: actions/checkout@v6
