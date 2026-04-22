@@ -23,4 +23,5 @@
   };
 
   documentation.enable = false;
+  isoImage.compressImage = true;
 }
