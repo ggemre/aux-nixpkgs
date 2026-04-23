@@ -24,6 +24,7 @@
 
   documentation.enable = false;
   isoImage.compressImage = true;
+  image.baseName = lib.mkForce "cd-installer";
 
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];

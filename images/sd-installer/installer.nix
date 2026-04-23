@@ -15,15 +15,13 @@
 
       The account "root" has the password "hunter2".
 
-      To reinstall an existing host, run `reinstall <HOST>` where
-      <HOST> is the hostname to install.
-
       -------------------------------------
     '';
   };
 
   documentation.enable = false;
   sdImage.compressImage = true;
+  image.baseName = "sd-installer";
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 }
