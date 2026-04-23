@@ -1,4 +1,5 @@
 # Some of my hardware requires broadcom drivers which are not included by default
+# TODO: remove module when deemed unnecessary
 {config, ...}: {
   nixpkgs.config.allowUnfree = true;
   boot.kernelModules = ["wl"];

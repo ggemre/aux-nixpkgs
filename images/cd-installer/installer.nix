@@ -24,4 +24,15 @@
 
   documentation.enable = false;
   isoImage.compressImage = true;
+
+  nix.settings = {
+    experimental-features = ["nix-command" "flakes"];
+
+    substituters = [
+      "https://ggemre.cachix.org"
+    ];
+    trusted-public-keys = [
+      "ggemre.cachix.org-1:ULcTF3sXFvs42La9WBB+hUOLuI3eFExxQBpRMgOzTdo="
+    ];
+  };
 }
