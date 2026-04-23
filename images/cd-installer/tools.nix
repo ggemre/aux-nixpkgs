@@ -3,7 +3,6 @@
 in {
   environment.systemPackages = [
     pkgs.disko
-    pkgs.helix
     reinstall
   ];
 }
