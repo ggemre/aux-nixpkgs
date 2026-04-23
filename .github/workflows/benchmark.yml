@@ -1,4 +1,4 @@
-# Test the SD image build on demand
+# Test the SD image arm builder on demand
 name: "Benchmark image"
 on:
   workflow_dispatch:
