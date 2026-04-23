@@ -4,6 +4,7 @@ on:
     branches: [ main ]
     paths:
       - 'images/**/*.nix'
+  workflow_dispatch:
 
 jobs:
   build-x86:
@@ -78,6 +79,10 @@ jobs:
         with:
           path: dist/
 
+      - name: Debug download
+        run: |
+          ls -R dist
+
       - name: Get date
         id: date
         run: |
@@ -94,7 +99,7 @@ jobs:
         with:
           tag_name: "v${{ steps.date.outputs.date_time }}"
           name: Images ${{ steps.date.outputs.date }}
-          files: dist/*.zst
+          files: dist/**/*.zst
           body: |
             # Image release
 
