@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
-        image: [ sd-image ]
+        image: [ sd-installer ]
 
     steps:
       - uses: actions/checkout@v6
@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: images
-          path: ${{ matrix.image }}/*.zst
+          path: ${{ matrix.image }}/sd-image/*.zst
 
 
   release:
@@ -104,7 +104,7 @@ jobs:
             The available images serve my purposes as follows:
 
             - **cd-installer**: basic x86_64-linux iso for installing NixOS
-            - **sd-image**: basic aarch64-linux iso for running NixOS
+            - **sd-installer**: basic aarch64-linux iso for installing NixOS
 
             Use `zstd -d <file_name.zst>` to decompress the artifact.
             You can use `dd` to flash the image, e.g.:
