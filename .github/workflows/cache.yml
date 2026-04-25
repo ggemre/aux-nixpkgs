@@ -14,7 +14,6 @@ jobs:
 
       - name: Install nix
         uses: cachix/install-nix-action@v31
-        if: ${{ steps.filter.outputs.pkgs == 'true' }}
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
