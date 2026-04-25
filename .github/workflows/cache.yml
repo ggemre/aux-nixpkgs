@@ -30,3 +30,12 @@ jobs:
           echo "Building attrs: $attrs"
 
           nix build $attrs
+
+      # - name: Push to cache
+      #   run: |
+      #     paths=$(nix path-info ./result*)
+      #     echo "Pushing $paths"
+      #     nix run nixpkgs#cachix -- push ggemre $paths
+      #   env:
+      #     CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
