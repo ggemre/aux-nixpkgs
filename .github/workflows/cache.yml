@@ -20,8 +20,8 @@ jobs:
 
       - name: Build all packages
         run: |
-          attrs=$(nix flake show --json | jq -r '.packages."x86_64-linux" | keys[]')
-
+          files=$(nix flake show --json | jq -r '.packages."x86_64-linux" | keys[]')
+          attrs=$(echo "$files" | sort -u | sed 's/^/.#/' | paste -sd ' ')
           echo "Building attrs: $attrs"
 
           nix build $attrs
