@@ -1,0 +1,36 @@
+name: "Cache warmer"
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'flake.lock'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install nix
+        uses: cachix/install-nix-action@v31
+        if: ${{ steps.filter.outputs.pkgs == 'true' }}
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Build all packages
+        run: |
+          attrs=$(nix flake show --json | jq -r '.packages."x86_64-linux" | keys[]')
+
+          echo "Building attrs: $attrs"
+
+          nix build $attrs
+
+      - name: Push to cache
+        run: |
+          paths=$(nix path-info ./result*)
+          echo "Pushing $paths"
+          nix run nixpkgs#cachix -- push ggemre $paths
+        env:
+          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
