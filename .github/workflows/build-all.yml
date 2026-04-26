@@ -18,6 +18,11 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
 
+      - uses: cachix/cachix-action@v14
+        with:
+          name: ggemre
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
       - name: Build all packages
         run: |
           files=$(nix flake show --json | jq -r '.packages."x86_64-linux" | keys[]')
@@ -26,10 +31,11 @@ jobs:
 
           nix build $attrs
 
-      - name: Push to cache
-        run: |
-          paths=$(nix path-info ./result*)
-          echo "Pushing $paths"
-          nix run nixpkgs#cachix -- push ggemre $paths
-        env:
-          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      # - name: Push to cache
+      #   run: |
+      #     paths=$(nix path-info ./result*)
+      #     echo "Pushing $paths"
+      #     nix run nixpkgs#cachix -- push ggemre $paths
+      #   env:
+      #     CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
